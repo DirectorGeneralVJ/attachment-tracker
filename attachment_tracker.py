@@ -44,6 +44,33 @@ class AttachmentTracker:
                 f"{student['name']} | Year {student['year']} | {student['course']}"
             )
 
+    def delete_student(self, index):
+        if 0 <= index < len(self.students):
+            removed = self.students.pop(index)
+            print(f"Deleted student: {removed['name']}")
+        else:
+            print("Invalid index.")
+
+    def update_student(self, index, name=None, year=None, course=None):
+        if 0 <= index < len(self.students):
+            student = self.students[index]
+            if name:
+                student["name"] = name.strip()
+            if year:
+                student["year"] = year.strip()
+            if course:
+                student["course"] = course.strip()
+            print(f"Updated student at index {index + 1}.")
+        else:
+            print("Invalid index.")
+
+    def count_by_course(self, course_name):
+        course_name = course_name.lower()
+        count = sum(
+            1 for student in self.students if student["course"].lower() == course_name
+        )
+        print(f"Number of students in {course_name}: {count}")
+
     def save_to_file(self):
         with open(self.filename, "w") as file:
             for student in self.students:
@@ -69,7 +96,10 @@ def show_menu():
     print("1. Add student")
     print("2. View students")
     print("3. Search students by course")
-    print("4. Exit")
+    print("4. Delete student")
+    print("5. Update student details")
+    print("6. Count students by course")
+    print("7. Exit")
 
 
 def main():
@@ -77,13 +107,12 @@ def main():
 
     while True:
         show_menu()
-        choice = input("Choose an option (1-4): ").strip()
+        choice = input("Choose an option (1-7): ").strip()
 
         if choice == "1":
             name = input("Enter student name: ")
             year = input("Enter student year: ")
             course = input("Enter student course: ")
-
             tracker.add_student(name, year, course)
             tracker.save_to_file()
 
@@ -95,6 +124,25 @@ def main():
             tracker.search_by_course(course_name)
 
         elif choice == "4":
+            tracker.list_students()
+            idx = int(input("Enter student number to delete: ")) - 1
+            tracker.delete_student(idx)
+            tracker.save_to_file()
+
+        elif choice == "5":
+            tracker.list_students()
+            idx = int(input("Enter student number to update: ")) - 1
+            name = input("Enter new name (or press enter to skip): ")
+            year = input("Enter new year (or press enter to skip): ")
+            course = input("Enter new course (or press enter to skip): ")
+            tracker.update_student(idx, name or None, year or None, course or None)
+            tracker.save_to_file()
+
+        elif choice == "6":
+            course_name = input("Enter course name to count: ")
+            tracker.count_by_course(course_name)
+
+        elif choice == "7":
             tracker.save_to_file()
             print("Goodbye.")
             break
