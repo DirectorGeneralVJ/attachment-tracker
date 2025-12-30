@@ -9,9 +9,9 @@ class AttachmentTracker:
 
     def add_student(self, name, year, course):
         student = {
-            "name": name,
-            "year": year,
-            "course": course
+            "name": name.strip(),
+            "year": year.strip(),
+            "course": course.strip()
         }
         self.students.append(student)
         print("Student added successfully.")
@@ -25,6 +25,23 @@ class AttachmentTracker:
         for index, student in enumerate(self.students, start=1):
             print(
                 f"{index}. {student['name']} | Year {student['year']} | {student['course']}"
+            )
+
+    def search_by_course(self, course_name):
+        course_name = course_name.lower()
+        results = [
+            student for student in self.students
+            if student["course"].lower() == course_name
+        ]
+
+        if not results:
+            print(f"No students found for course: {course_name}")
+            return
+
+        print(f"\n--- Students in {course_name} ---")
+        for student in results:
+            print(
+                f"{student['name']} | Year {student['year']} | {student['course']}"
             )
 
     def save_to_file(self):
@@ -51,7 +68,8 @@ def show_menu():
     print("\n--- Attachment Tracker Menu ---")
     print("1. Add student")
     print("2. View students")
-    print("3. Exit")
+    print("3. Search students by course")
+    print("4. Exit")
 
 
 def main():
@@ -59,7 +77,7 @@ def main():
 
     while True:
         show_menu()
-        choice = input("Choose an option (1-3): ")
+        choice = input("Choose an option (1-4): ").strip()
 
         if choice == "1":
             name = input("Enter student name: ")
@@ -73,6 +91,10 @@ def main():
             tracker.list_students()
 
         elif choice == "3":
+            course_name = input("Enter course name to search: ")
+            tracker.search_by_course(course_name)
+
+        elif choice == "4":
             tracker.save_to_file()
             print("Goodbye.")
             break
