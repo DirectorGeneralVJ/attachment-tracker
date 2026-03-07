@@ -2,7 +2,7 @@
 
 A command-line Python application to manage and track Computer Science students preparing for industrial attachment.
 
-This project demonstrates practical Python skills, object-oriented programming, file handling, and real-world CLI applications — exactly what supervisors and recruiters look for in a portfolio.
+This project demonstrates practical Python skills, object-oriented programming, file handling, and real-world CLI applications
 
 # Features
 
@@ -61,3 +61,4 @@ Usage Example
 
 Tinevimbonashe Vitalis Jera – Year 2 Computer Science Student, University of Zimbabwe
 GitHub: https://github.com/DirectorGeneralVJ
+
